@@ -1,5 +1,6 @@
 import streamlit as st
 import time
+import datetime
 from scripts.spurgeon_rag import init_rag_system, get_spurgeon_stream
 
 # --- CONFIGURATION DE LA PAGE ---
@@ -56,7 +57,7 @@ if prompt := st.chat_input("Posez votre question à M. Spurgeon..."):
     if prompt.lower() in ["exit", "q", "quit", "bye"]:
         st.session_state.messages.clear()
         st.success("Le bureau de M. Spurgeon est fermé. Historique nettoyé !")
-        st.rerun() # Rafraîchit la page
+        st.rerun()
 
     with st.chat_message("user", avatar="👤"):
         st.markdown(prompt)
@@ -87,6 +88,13 @@ if prompt := st.chat_input("Posez votre question à M. Spurgeon..."):
         message_placeholder.markdown(full_response)
 
     st.session_state.messages.append({"role": "assistant", "content": full_response})
+
+    with open("spurgeon_convo_history.txt", "a", encoding="utf-8") as f:
+        timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        f.write(f"[{timestamp}]\n")
+        f.write(f"User: {prompt}\n")
+        f.write(f"Spurgeon: {full_response}\n")
+        f.write("-" * 50 + "\n\n")
 
 
 with st.sidebar:
