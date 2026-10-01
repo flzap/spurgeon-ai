@@ -27,7 +27,7 @@ def init_rag_system():
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
     DB_DIR = os.path.join(BASE_DIR, "..", "chroma_db")
 
-    PROMPT = "prompt_template.txt"
+    PROMPT = "scriptwriter_prompt.txt"
     PROMPT_PATH = os.path.join(BASE_DIR, "..", PROMPT)
 
     EMBEDDING_MODEL = "all-minilm"
